@@ -1,0 +1,88 @@
+L: 5
+atom_type_size: 2
+batch_size: 1
+conditional: True
+d_size: 1
+excited_atom_size: 1
+give_excited_atom: False
+h_hidden_size: 1024
+m_hidden_size: 1024
+m_size: 256
+max_grad_norm: 1.0
+noise_precision: 1.0e-5
+noise_schedule: predefined
+noise_schedule_power: 2.0
+num_diffusion_timestep: 1000
+num_epochs: 3000
+onehot_scaling_factor: 1.0
+patience: 30000
+seed: 2024
+spectrum_size: 200
+t_size: 1
+x_hidden_size: 1024
+x_size: 3
+
+classifier_free:
+  use_classifier_free: False
+  classifier_free_weight: 3
+  dropout_rate: 0.15
+
+Encoder_Decoder:
+  spectrum_to_latent : False
+  latent_dim : 16
+  reference_model : 
+    project_name : null
+    run_id : null
+
+dataset:
+  add_to_train_data : False
+  additional_dataset_list : 
+   - './dataset/amorphous/SiO0.25_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.5_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.75_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.0_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.25_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.5_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.75_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO2.0_0_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.25_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.5_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.75_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.0_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.25_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.5_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.75_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO2.0_1_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.25_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.5_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO0.75_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.0_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.25_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.5_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO1.75_2_relaxed/dataset.pt'
+   - './dataset/amorhpus/SiO2.0_2_relaxed/dataset.pt'
+
+
+EMA :
+  use_ema : True
+  beta : 0.999
+
+optimizer:
+  lr : 1.0e-4
+  scheduler : True
+  num_warmup_steps : 500
+  type : 'AdamW'
+  weight_decay : 1.0e-12
+
+lr_scheduler:
+  use_scheduler : False
+  type : 'OneCycleLR'
+
+NN_encoder : 
+  spectrum_to_latent : False
+  compressed_hidden_dim : 
+    - 150
+    - 100
+    - 50
+  compressed_spectrum_size : 32
+

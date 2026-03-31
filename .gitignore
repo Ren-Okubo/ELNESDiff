@@ -1,0 +1,3 @@
+wandb
+slurm_log
+*.sh

@@ -49,7 +49,6 @@ def RDF(position,sigma=5,R=5.0,dR=0.01,Normalize=False):
     length_list = length_from_exO(position)
     num_atom = position.shape[0]
     ro = num_atom/(4/3*np.pi*R**3)
-    dR
     R = np.arange(0+dR,R+dR,dR)
     RDF = []
     for r in R:

@@ -1,0 +1,13 @@
+mode: train
+
+trainer:
+  __target__: pytorch_lightning.Trainer
+  max_epochs: 3000
+  callbacks:
+    - __target__: pytorch_lightning.callbacks.ModelCheckpoint
+      monitor: val_loss
+      mode: min
+      save_top_k: 1
+      filename: "best_model"
+      dirpath: /jbod/rokubo/ELNESDiff/egnn_pred/outputs/${ymd}/${hms}/${stage.mode}/checkpoints
+

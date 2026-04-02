@@ -35,6 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_name',type=str,default=None)
     parser.add_argument('--dataset_path',type=str,default="./dataset/Si_O_ELNES.pt")
     parser.add_argument('--mode',type=str,default='train_and_generate') #train_and_generate, train_only, generate_only, evaluate_only
+    parser.add_argument('--trained_model_run_id',type=str,default=None) #generate_only, evaluate_onlyのとき、使用するモデルのrun_idを指定
     parser.add_argument('--record_schedule',type=bool,default=False)
     parser.add_argument('--create_xyz_file',type=bool,default=False)
     parser.add_argument('--note',type=str,default=None)
@@ -58,9 +59,10 @@ if __name__ == '__main__':
     if args.mode == 'train_and_generate' or args.mode == 'train_only':
         run = wandb.init(project=args.project_name,config=prms,name=args.run_name)
     elif args.mode == 'generate_only' or args.mode == 'evaluate_only':
-        run_id = input('run_id:')
+        run_id = args.trained_model_run_id
         run = wandb.init(project=args.project_name,id=run_id,resume='must')
         prms = run.config
+        prms["optimizer"]["weight_decay"] = 1.0e-5
 
     #メモがあればnoteに記録
     if args.note:
@@ -148,8 +150,8 @@ if __name__ == '__main__':
 
     setupdata = SetUpData(seed=seed,conditional=conditional)    
 
-    # 乱数生成器を作成し、CUDAデバイスに設定
-    generator = torch.Generator(device=device)
+    # DataLoader の generator は CPU 上で作成する
+    generator = torch.Generator()
     generator.manual_seed(seed)  # 任意のシード値を設定
 
     #datasetの読み込み
@@ -282,7 +284,7 @@ if __name__ == '__main__':
     #EMAの設定
     if prms['EMA']['use_ema']:
         ema = EMA(beta=prms['EMA']['beta'])
-        ema_model = EquivariantGNN(L,m_input_size,m_hidden_size,m_output_size,x_input_size,x_hidden_size,x_output_size,h_input_size,h_hidden_size,h_output_size)
+        ema_model = EquivariantGNN(L,m_input_size,m_hidden_size,m_output_size,x_input_size,x_hidden_size,x_output_size,h_input_size,h_hidden_size,h_output_size).to(device)
     else:
         ema = None
         ema_model = None

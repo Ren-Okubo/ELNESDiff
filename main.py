@@ -35,6 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_name',type=str,default=None)
     parser.add_argument('--dataset_path',type=str,default="./dataset/Si_O_ELNES.pt")
     parser.add_argument('--mode',type=str,default='train_and_generate') #train_and_generate, train_only, generate_only, evaluate_only
+    parser.add_argument('--training_run_id',type=str,default=None) #train_onlyやgenerate_onlyのとき、モデルの状態を読み込むために必要
     parser.add_argument('--record_schedule',type=bool,default=False)
     parser.add_argument('--create_xyz_file',type=bool,default=False)
     parser.add_argument('--note',type=str,default=None)
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     if args.mode == 'train_and_generate' or args.mode == 'train_only':
         run = wandb.init(project=args.project_name,config=prms,name=args.run_name)
     elif args.mode == 'generate_only' or args.mode == 'evaluate_only':
-        run_id = input('run_id:')
+        run_id = args.training_run_id
         run = wandb.init(project=args.project_name,id=run_id,resume='must')
         prms = run.config
 

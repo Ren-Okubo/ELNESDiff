@@ -137,7 +137,8 @@ def define_optimizer(params,nn_dict,diffusion_process,optim_type:str):
     if optim_type == 'Adam':
         optimizer = torch.optim.Adam(param_list_for_optim,lr=lr,weight_decay=weight_decay)
     elif optim_type == 'AdamW':
-        optimizer = torch.optim.AdamW(param_list_for_optim,lr=lr,weight_decay=weight_decay,amsgrad=True)
+        #optimizer = torch.optim.AdamW(param_list_for_optim,lr=lr,weight_decay=weight_decay,amsgrad=True)
+        optimizer = torch.optim.AdamW(param_list_for_optim,lr=lr,weight_decay=weight_decay,amsgrad=False)
     elif optim_type == 'RAdamScheduleFree':
         optimizer = RAdamScheduleFree(param_list_for_optim,lr=lr)
     return optimizer

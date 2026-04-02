@@ -1,3 +1,4 @@
 wandb
 slurm_log
 *.sh
+*.pyc

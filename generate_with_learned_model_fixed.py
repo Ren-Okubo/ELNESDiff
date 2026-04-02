@@ -160,8 +160,8 @@ if __name__ == "__main__":
 
         original_graph_list = torch.load(original_graph_save_path, map_location=device, weights_only=False)
         generated_graph_list = torch.load(generated_graph_save_path, map_location=device, weights_only=False)
-        Si_tensor = torch.tensor([0, 1], dtype=torch.long)
-        O_tensor = torch.tensor([1, 0], dtype=torch.long)
+        Si_tensor = torch.tensor([0, 1], dtype=torch.long, device=device)
+        O_tensor = torch.tensor([1, 0], dtype=torch.long, device=device)
         density_O_original = []
         density_O_generated = []
         for i in range(len(original_graph_list)):

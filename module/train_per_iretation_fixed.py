@@ -12,7 +12,6 @@ from torch_geometric.data import Data
 from torch_geometric.loader import DataLoader
 from torch_geometric.nn import MessagePassing
 from E3diffusion_new import E3DiffusionProcess, remove_mean
-from CN2_evaluate import calculate_angle_for_CN2
 from DataPreprocessor import SpectrumCompressor
 import wandb
 
@@ -532,7 +531,11 @@ def generate(nn_dict,test_data,params,diffusion_process,gen_num_per_spectrum=5,e
                         #print(f'timestep {t} is done')
                         pass
                 
-                time_tensor = torch.tensor([[0] for d in range(num_of_atoms)],dtype=torch.float32)
+                time_tensor = torch.tensor(
+                    [[0] for d in range(num_of_atoms)],
+                    dtype=torch.float32,
+                    device=graph.h.device,
+                )
                 graph.h = onehot_scaling_factor*graph.x
                 if conditional:
                     if params['NN_encoder']['spectrum_to_latent']:

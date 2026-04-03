@@ -129,6 +129,30 @@ if __name__ == "__main__":
 
         run = wandb.init(project=args.project_name, name=run_name, config=config)
 
+
+        """
+         for data in test_data:
+      if args.scaling is None:
+          spectrum = data.spectrum_raw
+          data.spectrum = spectrum
+      elif args.scaling == "max":
+          spectrum = data.spectrum_raw[0].cpu().numpy()
+          spectrum_scaling_max = spectrum / np.max(spectrum)
+          new_spectrum = torch.zeros_like(data.spectrum_raw)
+          new_spectrum[0] = torch.tensor(spectrum_scaling_max, device=device)
+          data.spectrum = new_spectrum
+      elif args.scaling == "area":
+          spectrum = data.spectrum_raw[0].cpu().numpy()
+          spectrum_scaling_area = spectrum / np.sum(spectrum)
+          new_spectrum = torch.zeros_like(data.spectrum_raw)
+          new_spectrum[0] = torch.tensor(spectrum_scaling_area, device=device)
+          data.spectrum = new_spectrum
+
+      spectrum = data.spectrum
+      resized_spectrum = spectrum[:, :spectrum_size]
+      data.spectrum = resized_spectrum
+        """
+
         if args.scaling == "max":
             for data in test_data:
                 data.spectrum = data.spectrum_raw / data.spectrum_raw.max()

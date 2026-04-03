@@ -176,6 +176,7 @@ if __name__ == '__main__':
             for data in dataset:
                 if args.scaling == None:  
                     spectrum = data.spectrum_raw
+                    data.spectrum = spectrum
                 elif args.scaling == 'max':
                     spectrum = data.spectrum_raw[0].cpu().numpy()
                     spectrum_scaling_max = spectrum / np.max(spectrum)
@@ -190,7 +191,7 @@ if __name__ == '__main__':
                     new_spectrum = torch.zeros_like(data.spectrum_raw)
                     new_spectrum[0] = torch.tensor(spectrum_scaling_area, device=device)
                     data.spectrum = new_spectrum
-                    spectrum = data.spectrum
+                spectrum = data.spectrum
                 resized_spectrum = spectrum[:,:spectrum_size]
                 data.spectrum = resized_spectrum
 

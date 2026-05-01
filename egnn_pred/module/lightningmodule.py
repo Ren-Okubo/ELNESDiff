@@ -1,4 +1,5 @@
 import pytorch_lightning as pl
+import torch
 from pathlib import Path
 
 class LightningModule(pl.LightningModule):
@@ -14,10 +15,10 @@ class LightningModule(pl.LightningModule):
     def configure_optimizers(self):
         self.optimizer = self.optimizer_factory(self.model.parameters())
         self.scheduler = self.scheduler_factory(self.optimizer)
-        return [{"optimizer": self.optimizer, "lr_scheduler": self.scheduler, "monitor": "val_loss"}]
+        return [{"optimizer": self.optimizer, "lr_scheduler": {"scheduler": self.scheduler, "monitor": "val_loss"}}]
     
     def training_step(self, batch, batch_idx):
-        target_pos, target_atom_type, batch_spectrum, batch_edge_index = batch
+        target_pos, target_atom_type, batch_spectrum, batch_edge_index, _, _ = batch
         model_output = self.model(batch_edge_index, h=batch_spectrum, x=None)
         pred_coords = model_output[:, :3]
         pred_one_hot = model_output[:, 3:]
@@ -28,7 +29,7 @@ class LightningModule(pl.LightningModule):
         return loss
     
     def validation_step(self, batch, batch_idx):
-        target_pos, target_atom_type, batch_spectrum, batch_edge_index = batch
+        target_pos, target_atom_type, batch_spectrum, batch_edge_index, _, _ = batch
         model_output = self.model(batch_edge_index, h=batch_spectrum, x=None)
         pred_coords = model_output[:, :3]
         pred_one_hot = model_output[:, 3:]
@@ -37,3 +38,10 @@ class LightningModule(pl.LightningModule):
         loss = loss_coords + loss_one_hot
         self.log("val_loss", loss)
         return loss
+    
+    def predict(self, batch, batch_idx):
+        target_pos, target_atom_type, batch_spectrum, batch_edge_index, num_atoms_list, id_list = batch
+        model_output = self.model(batch_edge_index, h=batch_spectrum, x=None)
+        pred_pos = model_output[:, :3]
+        pred_atom_type = model_output[:, 3:]
+        return target_pos, target_atom_type, pred_pos, pred_atom_type, num_atoms_list, id_list

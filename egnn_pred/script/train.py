@@ -1,9 +1,15 @@
-import pytorch_lightning as pl
-import hydra
-from omegaconf import DictConfig, OmegaConf
-import fire
+import sys
+from pathlib import Path
 
-@hydra.main(version_base=None, config_path="config", config_name="default")
+import hydra
+import pytorch_lightning as pl
+from omegaconf import DictConfig
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+@hydra.main(version_base=None, config_path="../config", config_name="default")
 def main(cfg: DictConfig):
     # Set random seed for reproducibility
     pl.seed_everything(cfg.seed)
@@ -18,8 +24,5 @@ def main(cfg: DictConfig):
     # Train the model
     trainer.fit(lightning_module, datamodule=data_module)
 
-def _main():
-    fire.Fire(main)
-
 if __name__ == "__main__":
-    _main()
+    main()

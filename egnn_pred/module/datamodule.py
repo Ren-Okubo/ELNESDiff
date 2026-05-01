@@ -41,10 +41,12 @@ class DataModule(pl.LightningDataModule):
         atom_type_tensor_list = []
         spectrum_tensor_list = []
         num_atoms_list = []
+        id_list = []
         for data in batch:
             pos_tensor_list.append(data.pos)
             atom_type_tensor_list.append(data.x)
             num_atoms_list.append(data.x.shape[0])
+            id_list.append(data.id)
             spectrum_tensor = data.spectrum_raw[0]
             if self.normalize is None:
                 normalized_spectrum = spectrum_tensor.repeat(data.x.shape[0],1)
@@ -68,7 +70,7 @@ class DataModule(pl.LightningDataModule):
             edge_index_list.append(torch.tensor(perm, dtype=torch.long).t())
             start_idx += num_atom
         edge_index = torch.cat(edge_index_list, dim=1) # shape: [2, num_edges]
-        return total_pos_tensor, total_atom_type_tensor, total_spectrum_tensor, edge_index
+        return total_pos_tensor, total_atom_type_tensor, total_spectrum_tensor, edge_index, num_atoms_list, id_list
 
     def train_dataloader(self):
         return torch.utils.data.DataLoader(

@@ -1,17 +1,17 @@
 data_module:
-  __target__: module.datamodule.DataModule
-  train_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_3NN/Si_O_3NN_train.pt"
-  val_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_3NN/Si_O_3NN_val.pt"
-  test_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_3NN/Si_O_3NN_test.pt"
+  _target_: module.datamodule.DataModule
+  train_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_ELNES/Si_O_ELNES_train.pt"
+  val_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_ELNES/Si_O_ELNES_valid.pt"
+  test_dataset_path: "/jbod/rokubo/ELNESDiff/dataset/Si_O_ELNES/Si_O_ELNES_test.pt"
   batch_size: 32
   num_workers: 1
   pin_memory: False
   normalize: sum
 
 lightning_module:
-  __target__: module.lightningmodule.LightningModule
+  _target_: module.lightningmodule.LightningModule
   model:
-    __target__: module.EquivariantGraphNeuralNetwork.EquivariantGNN
+    _target_: module.EquivariantGraphNeuralNetwork.EquivariantGNN
     L: 5
     m_input: 400
     m_hidden: 256
@@ -24,15 +24,14 @@ lightning_module:
     h_output: 200
     total_output_dim: 5
   optimizer:
-    __target__: torch.optim.AdamW
-    __partial__: True
+    _target_: torch.optim.AdamW
+    _partial_: True
     lr: 1e-4
     weight_decay: 1e-5
   scheduler:
-    __target__: torch.optim.lr_scheduler.ReduceLROnPlateau
-    __partial__: True
+    _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+    _partial_: True
     mode: min
     factor: 0.5
     patience: 30
     min_lr: 1e-6
-    monitor: val_loss

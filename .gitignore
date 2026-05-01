@@ -2,3 +2,13 @@ wandb
 slurm_log
 *.sh
 *.pyc
+result_link
+dataset/elnes_calc_link
+dataset/perturbed_data
+dataset/template_matching
+dataset/exp
+dataset/custom
+egnn_pred/outputs
+egnn_pred/lightning_logs
+egnn_pred/wandb
+

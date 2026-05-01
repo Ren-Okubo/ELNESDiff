@@ -16,16 +16,16 @@ num_diffusion_timestep: 1000
 num_epochs: 3000
 onehot_scaling_factor: 1.0
 patience: 30000
-seed: 2024
+seed: 42
 spectrum_size: 200
 t_size: 1
 x_hidden_size: 1024
 x_size: 3
 
 classifier_free:
-  use_classifier_free: False
-  classifier_free_weight: 3
-  dropout_rate: 0.15
+  use_classifier_free: True
+  classifier_free_weight: 1
+  dropout_rate: 0.1
 
 Encoder_Decoder:
   spectrum_to_latent : False
@@ -72,7 +72,7 @@ optimizer:
   scheduler : True
   num_warmup_steps : 500
   type : 'AdamW'
-  weight_decay : 1.0e-12
+  weight_decay : 1.0e-5
 
 lr_scheduler:
   use_scheduler : False

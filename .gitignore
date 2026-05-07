@@ -11,4 +11,4 @@ dataset/custom
 egnn_pred/outputs
 egnn_pred/lightning_logs
 egnn_pred/wandb
-
+__pycache__
